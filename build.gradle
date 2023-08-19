@@ -10,9 +10,8 @@ jar {
 				'Main-Class': 'com.example.demo.DemoApplication'
 		)
 	}
-
-	from {
-		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	from configurations.compile.collect {
+		it.isDirectory() ? it : zipTree(it)
 	}
 }
 group = 'com.example'
