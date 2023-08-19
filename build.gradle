@@ -6,7 +6,7 @@ plugins {
 
 jar {
 	manifest {
-		attributes "Main-Class": "DemoApplication"
+		attributes "Main-Class": "com.example.demo.DemoApplication"
 	}
 
 //	from {
