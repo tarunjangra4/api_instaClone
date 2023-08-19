@@ -7,7 +7,7 @@ plugins {
 //apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'demo.MainDashboard'
+mainClassName = 'com.example.demo.DemoApplication'
 
 //jar {
 //	manifest {
@@ -21,7 +21,7 @@ mainClassName = 'demo.MainDashboard'
 
 task customFatJar(type: Jar) {
 	manifest {
-		attributes 'Main-Class': 'com.example.demo.DemoApplication'
+		attributes 'Main-Class': mainClassName
 	}
 	baseName = 'all-in-one-jar'
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
