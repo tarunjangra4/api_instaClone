@@ -6,11 +6,14 @@ plugins {
 
 jar {
 	manifest {
-		attributes(
-				'Main-Class': 'com.example.demo.DemoApplication'
-		)
+		attributes "Main-Class": "DemoApplication"
+	}
+
+	from {
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
 	}
 }
+
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
