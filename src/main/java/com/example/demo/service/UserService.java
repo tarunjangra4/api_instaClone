@@ -16,7 +16,7 @@ public interface UserService {
 	public User findUserProfile(String token) throws UserException;
 	
 	public User findUserByUsername(String userName) throws UserException;
-	
+
 	public String followUser(Integer reqUserId, Integer followedUserId) throws UserException;
 	
 	public String unfollowUser(Integer reqUserId, Integer followedUserId) throws UserException;

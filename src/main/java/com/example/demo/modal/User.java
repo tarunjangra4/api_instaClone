@@ -26,6 +26,7 @@ public class User {
 	private String bio;
 	private String userImage;
 	private String password;
+	private String gender;
 
 //	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //	@JsonIgnore
@@ -66,6 +67,7 @@ public class User {
 				", bio='" + bio + '\'' +
 				", userImage='" + userImage + '\'' +
 				", password='" + password + '\'' +
+				", gender='" + gender + '\'' +
 				'}';
 	}
 }

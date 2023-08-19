@@ -102,4 +102,18 @@ public class PostController {
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
+    @GetMapping("/{username}")
+    public ResponseEntity<List<PostDto>> getPostsByUsernameHandler(@PathVariable String username) throws UserException {
+        User user = userService.findUserByUsername(username);
+        List<PostDto> posts = postService.findPostsByUserId(user.getId());
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+    @GetMapping("/saved_posts/{username}")
+    public ResponseEntity<List<PostDto>> getSavedPostsByUsernameHandler(@PathVariable String username) throws UserException, PostException {
+        System.out.println("saved posts");
+        User user = userService.findUserByUsername(username);
+        List<PostDto> posts = postService.getSavedPosts(user.getId());
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
 }

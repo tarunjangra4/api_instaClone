@@ -29,7 +29,6 @@ public interface PostService {
     public String likePost(Integer postId, Integer userId) throws PostException, UserException;
 
     public String unlikePost(Integer postId, Integer userId) throws PostException, UserException;
-
     public List<PostDto> getSavedPosts(Integer userId) throws PostException;
 
 }

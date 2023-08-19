@@ -82,24 +82,39 @@ public class UserController {
 		return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
 	}
 	
-	@GetMapping("/multipleUser/{userIds}")
-	public ResponseEntity<List<User>> findUserByUserIdsHandler(@PathVariable List<Integer> userIds) throws UserException{
+	@GetMapping("/multiple-users/{userIds}")
+	public ResponseEntity<List<User>> findUserByUserIdsHandler(@PathVariable List<Integer> userIds,@RequestHeader("Authorization") String token) throws UserException{
 		List<User> users = userService.findUserByIds(userIds);
-		return new ResponseEntity<List<User>>(users,HttpStatus.OK);
+		System.out.println("token "+users);
+		return new ResponseEntity<>(users,HttpStatus.OK);
 	}
-	
-	@GetMapping("/search")
-	public ResponseEntity<List<User>> searchUserByQueryHandler(@RequestParam("query") String query) throws UserException{
+
+	@GetMapping("/search/{query}")
+	public ResponseEntity<List<User>> searchUserByQueryHandler(@PathVariable String query) throws UserException{
+		System.out.println("query "+query);
 		List<User> users = userService.searchUser(query);
+		System.out.println("users "+users.size());
 		return new ResponseEntity<List<User>>(users,HttpStatus.OK);
 	}
 
 	@PutMapping("/account/edit")
-	public ResponseEntity<User> updateUserHandler(@RequestHeader("Authorization") String token, @RequestBody User user) throws UserException{
+	public ResponseEntity<User> updateUserHandler(@RequestHeader("Authorization") String token, @RequestBody User uptadeUser) throws UserException{
 		User reqUser = userService.findUserProfile(token);
-		User updatedUser = userService.updateUserDetails(user, reqUser);
+		User updatedUser = userService.updateUserDetails(uptadeUser, reqUser);
 		return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 	}
 
+	@GetMapping("/followers/{username}")
+	public ResponseEntity<List<UserDto>> getFollowersListByUsernameHandler(@PathVariable String username) throws UserException {
+		User user = userService.findUserByUsername(username);
+		List<UserDto> followersList = userService.getFollowersList(user.getId());
+		return new ResponseEntity<>(followersList, HttpStatus.OK);
+	}
 
+	@GetMapping("/following/{username}")
+	public ResponseEntity<List<UserDto>> getFollowingUsersListByUsernameHandler(@PathVariable String username) throws UserException {
+		User user = userService.findUserByUsername(username);
+		List<UserDto> followersList = userService.getFollowingUsersList(user.getId());
+		return new ResponseEntity<>(followersList, HttpStatus.OK);
+	}
 }

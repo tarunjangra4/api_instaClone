@@ -26,28 +26,20 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostRepo postRepo;
-
     @Autowired
     private PostLikesRepo postLikesRepo;
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private UserRepo userRepo;
-
     @Autowired
     private FollowsRepo followsRepo;
-
     @Autowired
     private CommentRepo commentRepo;
-
     @Autowired
     private CommentService commentService;
-
     @Autowired
     private CommentLikesRepo commentLikesRepo;
-
     @Autowired
     private SavedPostsRepo savedPostsRepo;
 
@@ -71,7 +63,6 @@ public class PostServiceImpl implements PostService {
         List<PostDto> allPosts = new ArrayList<>();
 
         for(PostDto postDto : posts){
-            System.out.println("post "+postDto);
             List<IdAndNameDto> likedByUsers = postLikesRepo.getLikedByUserIds(postDto.getPostId());
             postDto.setLikeBy(likedByUsers);
             List<CommentDto> comments = commentService.getCommentsByPostId(postDto.getPostId());
@@ -89,16 +80,15 @@ public class PostServiceImpl implements PostService {
     public List<PostDto> findPostsByUserId(Integer userId) throws UserException {
         List<PostDto> posts = postRepo.findPostByUserId(userId);
         for(PostDto postDto : posts){
-            System.out.println("post "+postDto);
             List<IdAndNameDto> likedByUsers = postLikesRepo.getLikedByUserIds(postDto.getPostId());
             postDto.setLikeBy(likedByUsers);
             List<CommentDto> comments = commentService.getCommentsByPostId(postDto.getPostId());
             postDto.setComments(comments);
             postDto.setIsPostSaved(savedPostsRepo.isPostSavedByUser(userId, postDto.getPostId()));
         }
-        if(posts.size()==0){
-            throw new UserException("this user does not have any post");
-        }
+//        if(posts.size()==0){
+//            throw new UserException("this user does not have any post");
+//        }
         return posts;
     }
 
@@ -115,12 +105,10 @@ public class PostServiceImpl implements PostService {
             post.setCreatedAt(p.getCreatedAt());
             List<IdAndNameDto> likedByUsers = postLikesRepo.getLikedByUserIds(p.getId());
             post.setLikeBy(likedByUsers);
-            System.out.println("liked by "+ post.getLikeBy());
             User u = p.getUser();
             post.setCreatedBy(new UserDto(u.getId(), u.getName(), u.getUsername(), u.getUserImage()));
             List<CommentDto> comments = commentService.getCommentsByPostId(postId);
             post.setComments(comments);
-            System.out.println("start "+post);
         }
         System.out.println("end "+post);
         return post;
@@ -184,21 +172,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto> getSavedPosts(Integer userId) throws PostException {
-//        List<Integer> followingUserIds = followsRepo.findAllFollowingUsers(userId);
-//        followingUserIds.add(userId);
-//
-//        List<PostDto> posts = postRepo.findAllPostsByUserIds(followingUserIds);
-//        List<PostDto> allPosts = new ArrayList<>();
-//
-//        for(PostDto postDto : posts){
-//            System.out.println("post "+postDto);
-//            List<IdAndNameDto> likedByUsers = postLikesRepo.getLikedByUserIds(postDto.getPostId());
-//            postDto.setLikeBy(likedByUsers);
-//            List<CommentDto> comments = commentService.getCommentsByPostId(postDto.getPostId());
-//            postDto.setComments(comments);
-//            postDto.setIsPostSaved(savedPostsRepo.isPostSavedByUser(userId, postDto.getPostId()));
-//            allPosts.add(postDto);
-//        }
         List<PostDto> posts = postRepo.getSavedPosts(userId);
         for(PostDto postDto : posts){
             System.out.println("post "+postDto);
@@ -210,4 +183,27 @@ public class PostServiceImpl implements PostService {
         }
         return posts;
     }
+
+//    @Override
+//    public List<PostDto> getPostsByUsername(String username) throws PostException {
+//        Optional<List<Post>> opt = postRepo.findByUsername(username);
+//        List<PostDto> posts = new ArrayList<>();
+//        if(opt.isPresent()){
+//            for(Post p : opt.get()){
+//                PostDto post = new PostDto();
+//                post.setPostId(p.getId());
+//                post.setCaption(p.getCaption());
+//                post.setLocation(p.getLocation());
+//                post.setImage(p.getImage());
+//                post.setCreatedAt(p.getCreatedAt());
+//                List<IdAndNameDto> likedByUsers = postLikesRepo.getLikedByUserIds(p.getId());
+//                post.setLikeBy(likedByUsers);
+//                User u = p.getUser();
+//                post.setCreatedBy(new UserDto(u.getId(), u.getName(), u.getUsername(), u.getUserImage()));
+//                List<CommentDto> comments = commentService.getCommentsByPostId(p.getId());
+//                post.setComments(comments);
+//            }
+//        }
+//        return posts;
+//    }
 }

@@ -143,9 +143,9 @@ public class UserServieImpl implements UserService {
 	@Override
 	public List<User> searchUser(String query) throws UserException {
 		List<User> listOfUsers = userRepo.findByQuery(query);
-		if(listOfUsers.size()==0) {
-			throw new UserException("user not found");
-		}
+//		if(listOfUsers.size()==0) {
+//			throw new UserException("user not found");
+//		}
 		return listOfUsers;
 	}
 
@@ -174,6 +174,9 @@ public class UserServieImpl implements UserService {
 		}
 		if(updateUserDetails.getPassword()!=null) {
 			existingUserDetails.setPassword(passwordEncoder.encode(updateUserDetails.getPassword()));
+		}
+		if(updateUserDetails.getGender()!=null) {
+			existingUserDetails.setGender(updateUserDetails.getGender());
 		}
 		if(updateUserDetails.getId().equals(existingUserDetails.getId())) {
 			return userRepo.save(existingUserDetails);
