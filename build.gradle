@@ -38,34 +38,6 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.15.0'
 }
 
-apply plugin: 'java'
-jar {
-    baseName = 'base-name'
-    version = '0.1.0'
-    manifest {
-        attributes(
-                'Main-Class': 'com.example.demo.DemoApplication:'
-        )
-    }
-}
-
-task fatJar(type: Jar) {
-    manifest.from jar.manifest
-//    classifier = 'all'
-    from {
-        configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
-    } {
-        exclude "META-INF/*.SF"
-        exclude "META-INF/*.DSA"
-        exclude "META-INF/*.RSA"
-    }
-    with jar
-}
-
-artifacts {
-    archives fatJar
-}
-
 //task customFatJar(type: Jar) {
 //	manifest {
 //		attributes 'Main-Class': "com.example.demo.DemoApplication"
