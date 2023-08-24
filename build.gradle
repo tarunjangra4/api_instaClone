@@ -38,6 +38,16 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.15.0'
 }
 
+apply plugin: 'java'
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.example.demo.DemoApplication'
+        )
+    }
+}
+
 //task customFatJar(type: Jar) {
 //	manifest {
 //		attributes 'Main-Class': "com.example.demo.DemoApplication"
